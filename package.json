@@ -1,0 +1,16 @@
+{
+  "name": "@xiaochuan-dev/music-source",
+  "version": "0.0.1",
+  "files": [
+    "dist"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.2.0"
+  },
+  "packageManager": "yarn@1.22.22"
+}
