@@ -4,6 +4,9 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "url": "https://github.com/xiaochuan-dev/music-source"
+  },
   "license": "MIT",
   "publishConfig": {
     "access": "public",
