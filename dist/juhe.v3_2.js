@@ -9,7 +9,7 @@ let x = (r) => {
   throw new Error(r);
 };
 let { EVENT_NAMES: n, request: b, on, send: y, version: v } = globalThis.lx;
-let A = "https://172.67.158.35";
+let A = "http://172.67.158.35:443";
 let h = (u, o = { method: "GET" }) =>
   new Promise((s, j) => {
     b(u, o, (e, r) => {
