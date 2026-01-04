@@ -1,28 +1,118 @@
 name: publish
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
   push:
+    branches: [main, master]
     paths:
       - 'package.json'
   workflow_dispatch:
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 jobs:
   publish:
-
     runs-on: ubuntu-latest
-
+    
     steps:
       - uses: actions/checkout@v4
+        
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-      - run: node --version
-      - run: corepack enable
-      - run: yarn
-      - run: node index.js
-      - run: yarn publish --non-interactive
+          registry-url: 'https://registry.npmjs.org/'
+      
+      - name: Configure npm authentication
+        run: |
+          echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
+          echo "@xiaochuan-dev:registry=https://registry.npmjs.org/" >> ~/.npmrc
+          echo "always-auth=true" >> ~/.npmrc
+          echo "✅ NPM configuration set"
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Debug info
+        run: |
+          echo "=== Package Info ==="
+          echo "Name: $(node -p "require('./package.json').name")"
+          echo "Version: $(node -p "require('./package.json').version")"
+          echo ""
+          echo "=== NPM Auth Test ==="
+          npm whoami || echo "⚠️ Auth test failed"
+          echo ""
+          echo "=== Registry Check ==="
+          npm config get registry
+      
+      - name: Check existing package on npm
+        id: check-npm
+        continue-on-error: true
+        run: |
+          if NPM_VERSION=$(npm view @xiaochuan-dev/music-source version 2>/dev/null); then
+            echo "📦 Package exists on npm: v$NPM_VERSION"
+            echo "exists=true" >> $GITHUB_OUTPUT
+            echo "npm_version=$NPM_VERSION" >> $GITHUB_OUTPUT
+          else
+            echo "📭 Package not found on npm (first publish)"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Bump version if needed
+        if: steps.check-npm.outputs.exists == 'true'
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          NPM_VERSION="${{ steps.check-npm.outputs.npm_version }}"
+          
+          echo "Local version: v$CURRENT_VERSION"
+          echo "NPM version: v$NPM_VERSION"
+          
+          if [ "$CURRENT_VERSION" == "$NPM_VERSION" ]; then
+            echo "🚨 Version conflict! Bumping patch version..."
+            npm version patch --no-git-tag-version
+            echo "✅ New version: $(node -p "require('./package.json').version")"
+            
+            # 提交版本更新
+            git config --local user.email "action@github.com"
+            git config --local user.name "GitHub Action"
+            git add package.json
+            git commit -m "chore: bump version to $(node -p "require('./package.json').version")"
+            git push
+          else
+            echo "✅ Version OK, no need to bump"
+          fi
+      
+      - run: corepack enable
+      - run: yarn install --frozen-lockfile
+      
+      - name: Check dist directory
+        run: |
+          echo "📁 Dist directory contents:"
+          ls -la dist/ || echo "No dist directory"
+          echo ""
+          if [ ! -d "dist" ] || [ -z "$(ls -A dist/ 2>/dev/null)" ]; then
+            echo "❌ Error: dist directory is empty or doesn't exist!"
+            exit 1
+          fi
+      
+      - name: Publish package
+        run: |
+          echo "🚀 Publishing @xiaochuan-dev/music-source"
+          echo "Version: $(node -p "require('./package.json').version")"
+          
+          # 使用 npm publish 代替 yarn publish 避免问题
+          npm publish --access public
+          
+          echo "✅ Published successfully!"
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      
+      - name: Create GitHub Release (optional)
+        if: success()
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v$(node -p "require('./package.json').version")
+          name: Release v$(node -p "require('./package.json').version")
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
