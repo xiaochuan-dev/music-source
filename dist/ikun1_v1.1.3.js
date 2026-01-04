@@ -1,7 +1,7 @@
 /*!
  * @name ikun公益音源
  * @description 交流群组: https://t.me/ikunshare_qun
- * @version 1.1.3
+ * @version 3
  * @author ikunshare
  * @repository https://github.com/lxmusics/lx-music-api-server
  */

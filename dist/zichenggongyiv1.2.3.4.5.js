@@ -1,7 +1,7 @@
 /*!
  * @name 梓澄公益音源二代
  * @description 摆烂了，随便你们吧，反正这个没有账号
- * @version 1.2.3.4.5
+ * @version 3
  * @author helloplhm-qwq & Folltoshe
 * @repository https://github.com/lxmusics/lx-music-api-server
 */

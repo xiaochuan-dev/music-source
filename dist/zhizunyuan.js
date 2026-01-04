@@ -1,7 +1,7 @@
 /*!
  * @name 至尊源
  * @description 孙悟空自定义
- * @version v0.8.4_beta5
+ * @version 3
  * @author zhizun
  * @repository https://github.com/lxmusics/lx-music-api-server
  */

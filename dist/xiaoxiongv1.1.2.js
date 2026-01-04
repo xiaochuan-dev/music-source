@@ -1,7 +1,7 @@
 /*!
  * @name 小熊猫音源
  * @description 小熊猫音源，如果失效请在公众号【大学资源社】中反馈
- * @version v1.1.2
+ * @version 3
  * @wy_token null
  * @wy_token_desc 如果你有网易音乐的会员，可启用vip歌曲、更高音质的支持，将上面 @wy_token null 中的 null 改为你的token即可，token获取方式看常见问题歌单导入
  * @wy_token_desc 需要注意的是，自定义 token 存在导致账号被封禁的风险，token是账号的临时秘钥，注意不要随意分享

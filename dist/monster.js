@@ -1,7 +1,7 @@
 /*!
  * @name monster🐱‍🐉
  * @description 哥斯拉vs大金刚
- * @version v1.5.5
+ * @version 3
  * @author 哥总
  *
  *

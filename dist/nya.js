@@ -1,7 +1,7 @@
 /*!
  * @name 示例音源
  * @description Nya~
- * @version 0.0.1
+ * @version 3
  * @author 
  * @repository https://github.com/lxmusics/lx-music-api-server
  */

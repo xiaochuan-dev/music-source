@@ -1,7 +1,7 @@
 /*!
  * @name ikun公益音源
  * @description Telegram:@ikun0014，QQ:607047319
- * @version v103
+ * @version 3
  * @author 不知名纯鹿人
  * @repository https://github.com/lxmusics/lx-music-api-server
  */

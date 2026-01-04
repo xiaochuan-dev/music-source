@@ -1,7 +1,7 @@
 /*!
  * @name ikun公益音源
  * @description 请不要在国内平台转发, TME年终奖还没发呢, 交流群组: https://t.me/ikunshare_qun
- * @version v501
+ * @version 3
  * @author ikunshare
  * @repository https://github.com/lxmusics/lx-music-api-server
  */
