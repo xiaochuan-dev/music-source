@@ -12,5 +12,5 @@
   "devDependencies": {
     "fs-extra": "^11.2.0"
   },
-  "packageManager": "yarn@1.22.22"
+  "packageManager": "npm@11.6.2"
 }

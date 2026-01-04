@@ -25,7 +25,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
   
       - run: corepack enable
-      - run: yarn install --frozen-lockfile
+      - run: npm install
       - name: Publish package
         run: |
           npm publish --access public
